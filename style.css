@@ -1,0 +1,154 @@
+:root {
+  --bg: #0f1c26;
+  --panel: #172a38;
+  --line: #2b4456;
+  --ink: #e8f0f5;
+  --muted: #8fa6b5;
+  --rod: #7f97a6;
+  --accent: #ffd166;
+  --dh: 28px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 50% -10%, #1a3345, var(--bg));
+  color: var(--ink);
+  font-family: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 40px;
+}
+.game { width: 100%; max-width: 920px; }
+h1 { margin: 0 0 6px; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.02em; }
+.rules { margin: 0 0 20px; color: var(--muted); max-width: 60ch; line-height: 1.5; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.stats div {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.stats span { display: block; font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stats small { color: var(--muted); font-size: .8rem; }
+
+.message { min-height: 1.5em; margin: 8px 2px 12px; color: var(--accent); }
+
+.towers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 12px 0;
+}
+.tower {
+  position: relative;
+  height: calc(var(--dh) * (var(--n) + 2) + 30px);
+  cursor: pointer;
+  border-radius: 10px;
+  outline: none;
+  transition: background .15s;
+}
+.tower:hover { background: rgba(255,255,255,.03); }
+.tower:focus-visible { box-shadow: 0 0 0 3px var(--accent); }
+.tower.selected { background: rgba(255, 209, 102, .08); }
+.tower.drop-ok { background: rgba(120, 220, 160, .12); }
+.tower.shake { animation: shake .35s; }
+@keyframes shake {
+  20% { transform: translateX(-8px); } 40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); } 80% { transform: translateX(5px); }
+}
+.rod {
+  position: absolute;
+  left: 50%; bottom: 14px;
+  width: 10px; height: calc(100% - 14px);
+  transform: translateX(-50%);
+  background: var(--rod);
+  border-radius: 6px 6px 0 0;
+}
+.base {
+  position: absolute;
+  left: 2%; right: 2%; bottom: 0;
+  height: 14px;
+  background: var(--rod);
+  border-radius: 6px;
+}
+.label {
+  position: absolute;
+  bottom: -26px; left: 0; right: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+}
+.stack {
+  position: absolute;
+  left: 0; right: 0; bottom: 14px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+.disk {
+  height: var(--dh);
+  border-radius: 999px;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,.18), 0 2px 4px rgba(0,0,0,.35);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .8rem; color: rgba(0,0,0,.55);
+  transition: transform .18s ease;
+  pointer-events: none;
+}
+.disk.top { pointer-events: auto; cursor: grab; }
+.disk.lifted { transform: translateY(-26px); }
+.disk.dragging { opacity: .4; }
+
+.towers + .controls { margin-top: 44px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button, select {
+  font: inherit;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 16px;
+  cursor: pointer;
+}
+button:hover:not(:disabled), select:hover { border-color: var(--accent); }
+button:focus-visible, select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.disks-picker { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+.hint { margin-top: 16px; color: var(--muted); font-size: .9rem; line-height: 1.5; max-width: 70ch; }
+
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(5, 12, 18, .7);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.overlay[hidden] { display: none; }
+.dialog {
+  background: var(--panel);
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  padding: 28px 32px;
+  text-align: center;
+  max-width: 380px;
+}
+.dialog h2 { margin: 0 0 8px; font-size: 2rem; }
+.dialog p { color: var(--muted); line-height: 1.5; margin: 0 0 18px; }
+
+@media (max-width: 640px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  :root { --dh: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .disk, .tower { transition: none; animation: none !important; }
+}

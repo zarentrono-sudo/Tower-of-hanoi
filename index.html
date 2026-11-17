@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tower of Hanoi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game">
+    <header class="top">
+      <h1>Tower of Hanoi</h1>
+      <p class="rules">Move the whole stack to the last peg. Move one disk at a time and never place a larger disk on a smaller one.</p>
+    </header>
+
+    <section class="stats" aria-live="polite">
+      <div><span id="moves">0</span><small>Moves</small></div>
+      <div><span id="minMoves">7</span><small>Fewest possible</small></div>
+      <div><span id="time">0:00</span><small>Time</small></div>
+      <div><span id="best">–</span><small>Your best</small></div>
+    </section>
+
+    <p id="message" class="message" role="status">Pick a peg to lift its top disk.</p>
+
+    <section id="board" class="towers" aria-label="Game board"></section>
+
+    <section class="controls">
+      <label class="disks-picker">Disks
+        <select id="diskCount"></select>
+      </label>
+      <button id="undoBtn" type="button">Undo</button>
+      <button id="resetBtn" type="button">Restart</button>
+      <button id="solveBtn" type="button">Auto-solve</button>
+      <button id="prologBtn" type="button" title="Needs server.pl running">Solve with Prolog</button>
+    </section>
+
+    <p class="hint">Click a peg, then click where it should go. You can also drag a top disk, or press 1, 2, 3 to choose pegs. U undoes, R restarts.</p>
+  </main>
+
+  <div id="winOverlay" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <h2 id="winTitle">Solved!</h2>
+      <p id="winText"></p>
+      <button id="playAgainBtn" type="button">Play again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
